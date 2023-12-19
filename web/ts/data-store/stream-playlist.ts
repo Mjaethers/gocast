@@ -19,7 +19,6 @@ export type StreamPlaylistEntry = {
     streamName: string;
     liveNow: boolean;
     watched: boolean;
-    progress: number;
     start: string;
     createdAt: string;
 
