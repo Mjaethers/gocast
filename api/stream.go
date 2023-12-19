@@ -363,11 +363,28 @@ func (r streamRoutes) getStreamPlaylist(c *gin.Context) {
 		StreamName string    `json:"streamName"`
 		LiveNow    bool      `json:"liveNow"`
 		Watched    bool      `json:"watched"`
+		Progress   float64   `json:"progress"`
 		Start      time.Time `json:"start"`
 		CreatedAt  time.Time `json:"createdAt"`
 	}
 
 	tumLiveContext := c.MustGet("TUMLiveContext").(tools.TUMLiveContext)
+
+	// Create mapping of stream id to progress for all progresses of user
+	var streamIDs []uint
+	for _, stream := range tumLiveContext.Course.Streams {
+		streamIDs = append(streamIDs, stream.ID)
+	}
+	streamProgresses := make(map[uint]float64)
+	res, err := r.LoadProgress(tumLiveContext.User.ID, streamIDs)
+	if err != nil {
+		log.WithError(err).Error("Couldn't load progresses")
+	} else {
+		for _, progress := range res {
+			streamProgresses[progress.StreamID] = progress.Progress
+		}
+	}
+
 	var result []StreamPlaylistEntry
 	for _, stream := range tumLiveContext.Course.Streams {
 		result = append(result, StreamPlaylistEntry{
@@ -376,6 +393,7 @@ func (r streamRoutes) getStreamPlaylist(c *gin.Context) {
 			StreamName: stream.GetName(),
 			LiveNow:    stream.LiveNow,
 			Watched:    stream.Watched,
+			Progress:   streamProgresses[stream.ID],
 			Start:      stream.Start,
 			CreatedAt:  stream.CreatedAt,
 		})
