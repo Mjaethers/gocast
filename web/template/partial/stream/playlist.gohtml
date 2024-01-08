@@ -29,9 +29,15 @@
                             class="p-4 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer flex flex-row items-center"
                             :class="selected ? '--selected bg-gray-200 dark:bg-gray-700' : ''"
                         >
-                            <div
-                                :style="`background-image:url('/api/stream/${elem.streamId}/thumbs/vod')`"
+                            <div :style="`background-image:url('/api/stream/${elem.streamId}/thumbs/vod')`"
                                  class="h-14 w-24 shrink-0 playlist-thumbnail">
+                                <div :id="`vod-progress-${elem.streamId}`"
+                                     class="playlist-thumbnail-progress">
+                                    <div>
+                                            <span :style="`width: ${elem.Progress.Percentage()}%`"
+                                                  :class="{'rounded-br-lg': elem.Progress.HasProgressOne()}"></span>
+                                    </div>
+                                </div>
                             </div>
                             <i x-show="selected" class="fa-solid fa-play text-2 mr-2"></i>
                             <h2 x-text="elem.streamName" class="text-sm dark:text-white"></h2>

@@ -1,3 +1,15 @@
 .playlist-thumbnail {
     @apply bg-gray-100 dark:bg-gray-800 rounded-lg mr-4 bg-cover transition-all duration-500 hover:shadow-xl dark:shadow-gray-900/75;
 }
+
+.playlist-thumbnail-progress {
+    @apply absolute bottom-0 h-2 w-full
+}
+
+.playlist-thumbnail-progress > div {
+    @apply relative w-full h-2 bg-gray-500/50 rounded-b-lg
+}
+
+.playlist-thumbnail-progress > div > span {
+    @apply absolute left-0 playlist-bg-primary h-2 rounded-bl-lg
+}

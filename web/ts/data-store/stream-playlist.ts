@@ -1,5 +1,6 @@
 import { Delete, getData, postData, putData, Time } from "../global";
 import { StreamableMapProvider } from "./provider";
+import {Progress} from "../api/progress";
 
 export class StreamPlaylistProvider extends StreamableMapProvider<number, StreamPlaylistEntry[]> {
     protected async fetcher(streamId: number): Promise<StreamPlaylistEntry[]> {
@@ -13,13 +14,12 @@ export class StreamPlaylistProvider extends StreamableMapProvider<number, Stream
     }
 }
 
-export type StreamPlaylistEntry = {
+export interface StreamPlaylistEntry {
     streamId: number;
     courseSlug: string;
     streamName: string;
     liveNow: boolean;
-    watched: boolean;
-    progress: number;
+    Progress: Progress; // todo call to progress.ts constructor
     start: string;
     createdAt: string;
 
